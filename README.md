@@ -82,11 +82,35 @@ ANTHROPIC_API_KEY=sk-ant-your-key-here
 PORT=3000
 ```
 
-### 2. Get Your Slack Bot Token
+### 2. (Optional) Set Up a Slack Developer Sandbox
+
+If you want to test without affecting your production Slack workspace, you can create a free developer sandbox:
+
+1. Go to [Slack Developer Portal](https://api.slack.com/)
+2. Click on **Your Apps** in the top right
+3. Look for the **"Create a sandbox environment"** option in the left sidebar
+4. Click **"Create Sandbox"** or **"Developer Sandbox"**
+5. Slack will create a new sandbox workspace (e.g., `your-name-sandbox.slack.com`)
+6. You'll receive an invitation email - accept it to join your sandbox
+7. The sandbox includes:
+   - A fully functional Slack workspace
+   - Pre-populated with sample channels and data
+   - Isolated from your production workspace
+   - Free for development and testing
+
+**Benefits of using a sandbox:**
+- Test your app safely without impacting real users
+- No risk of accidentally posting to production channels
+- Can delete and recreate as needed
+- Pre-configured with test data
+
+**Note:** When creating your Slack app in the next step, make sure to select your sandbox workspace instead of your production workspace.
+
+### 3. Get Your Slack Bot Token
 
 1. Go to [Slack API Apps](https://api.slack.com/apps)
 2. Click "Create New App" → "From scratch"
-3. Name your app (e.g., "Channel Summarizer") and select your workspace
+3. Name your app (e.g., "Channel Summarizer") and select your workspace (or sandbox workspace)
 4. Navigate to **OAuth & Permissions**
 5. Add the following **Bot Token Scopes**:
    - `channels:history` - Read messages from public channels
@@ -96,7 +120,7 @@ PORT=3000
 6. Click **Install to Workspace** at the top
 7. Copy the **Bot User OAuth Token** (starts with `xoxb-`)
 
-### 3. Get Your Anthropic API Key
+### 4. Get Your Anthropic API Key
 
 1. Go to [Anthropic Console](https://console.anthropic.com/)
 2. Sign up or log in
@@ -104,7 +128,7 @@ PORT=3000
 4. Create a new API key
 5. Copy the key (starts with `sk-ant-`)
 
-### 4. Invite Bot to Channels
+### 5. Invite Bot to Channels
 
 In Slack, invite your bot to channels you want to summarize:
 ```
@@ -123,10 +147,18 @@ python server.py
 
 The server will start on `http://localhost:3000`
 
-#### Step 2: Authenticate and Start ngrok
+#### Step 2: Get Your ngrok Auth Token
+
+1. Go to [ngrok.com](https://ngrok.com/)
+2. Sign up for a free account (or log in if you have one)
+3. After logging in, you'll be taken to the dashboard
+4. Your **authtoken** is displayed in the "Your Authtoken" section
+5. Click to copy your authtoken (it looks like: `2abc123XYZ_a1b2c3d4e5f6g7h8`)
+
+#### Step 3: Authenticate and Start ngrok
 
 ```bash
-# Authenticate ngrok (one-time setup)
+# Authenticate ngrok (one-time setup - only needed once)
 ngrok config add-authtoken YOUR_NGROK_TOKEN
 
 # Start ngrok tunnel
@@ -135,7 +167,7 @@ ngrok http 3000
 
 Copy the **Forwarding URL** (e.g., `https://abc123.ngrok-free.app`)
 
-#### Step 3: Configure Slack Slash Command
+#### Step 4: Configure Slack Slash Command
 
 1. Go to your Slack app settings: [Slack API Apps](https://api.slack.com/apps)
 2. Select your app
@@ -149,7 +181,7 @@ Copy the **Forwarding URL** (e.g., `https://abc123.ngrok-free.app`)
 6. Click **Save**
 7. **Reinstall** your app to the workspace (OAuth & Permissions page)
 
-#### Step 4: Test in Slack
+#### Step 5: Test in Slack
 
 In any channel where your bot is invited:
 ```
